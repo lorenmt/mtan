@@ -278,7 +278,7 @@ for epoch in range(total_epoch):
 
     # iteration for all batches
     nyuv2_train_dataset = iter(nyuv2_train_loader)
-    for i in range(train_batch):
+    for k in range(train_batch):
         train_data, train_label, train_depth, train_normal = nyuv2_train_dataset.next()
         train_data, train_label = train_data.to(device), train_label.type(torch.LongTensor).to(device)
         train_depth, train_normal = train_depth.to(device), train_normal.to(device)
@@ -308,7 +308,7 @@ for epoch in range(total_epoch):
     # evaluating test data
     with torch.no_grad():  # operations inside don't track history
         nyuv2_test_dataset = iter(nyuv2_test_loader)
-        for i in range(test_batch):
+        for k in range(test_batch):
             test_data, test_label, test_depth, test_normal = nyuv2_test_dataset.next()
             test_data, test_label = test_data.to(device),  test_label.type(torch.LongTensor).to(device)
             test_depth, test_normal = test_depth.to(device), test_normal.to(device)
