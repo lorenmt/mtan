@@ -9,7 +9,7 @@ Download our pre-processed `NYUv2` dataset [here](https://www.dropbox.com/s/p2nn
 
 All the models (files) are built with SegNet and described in the following table:
 
-| File Names        | Type       |  Flags  |  Comments |
+| File Name        | Type       |  Flags  |  Comments |
 | ------------- |-------------| -----|-----|
 | `model_segnet_single.py`     | Single  | task, dataroot | standard single task learning |
 | `model_segnet_stan.py`     | Single  | task, dataroot | our approach whilst applied on one task |
@@ -20,7 +20,7 @@ All the models (files) are built with SegNet and described in the following tabl
 
 For each flag, it represents
 
-| Flag Names        | Usage  |  Comments |
+| Flag Name        | Usage  |  Comments |
 | ------------- |-------------| -----|
 | `task`     | pick one task to train: semantic (semantic segmentation, depth-wise cross-entropy loss), depth (depth estimation, l1 norm loss) or normal (normal prediction, cos-similarity loss)  | only availiable in single-task learning |
 | `dataroot`   | directory root for NYUv2 dataset  | just put under the folder `im2im_pred` to avoid any concerns :D |
