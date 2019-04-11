@@ -33,7 +33,7 @@ To run any model, `cd im2im_pred/` and run `python MODEL_NAME.py --FLAG_NAME 'FL
 ### Visual Decathlon Challenge (Many-to-Many)
 We have also provided source code for the recently proposed [Visual Decathlon Challenge](http://www.robots.ox.ac.uk/~vgg/decathlon/) for which we build MTAN based on [Wide Residual Network](https://arxiv.org/abs/1605.07146) from the implementation [here](https://github.com/meliketoy/wide-resnet.pytorch).
 
-To run the code, first download the dataset and devkit at the official Visual Decathlon Challenge website [here](http://www.robots.ox.ac.uk/~vgg/decathlon/#download) and put it in the folder `visual_decathlon'. Then, put `decathlon_mean_std.pickle` into the folder of the downloaded dataset `decathlon-1.0-data`.
+To run the code, first download the dataset and devkit at the official Visual Decathlon Challenge website [here](http://www.robots.ox.ac.uk/~vgg/decathlon/#download) and put it in the folder `visual_decathlon`. Then, put `decathlon_mean_std.pickle` into the folder of the downloaded dataset `decathlon-1.0-data`.
 
 Finally, run `python model_wrn_mtan.py` for training `python model_wrn_eval.py --dataset 'imagenet' and 'notimagenet'` for evaluation and `python coco_results.py` for COCO format for online evaluation.
 
