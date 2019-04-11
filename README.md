@@ -23,9 +23,9 @@ For each flag, it represents
 | ------------- |-------------| -----|
 | `task`     | pick task to train: semantic (semantic segmentation, depth-wise cross-entropy loss), depth (depth estimation, l1 norm loss) or normal (normal prediction, cos-similarity loss)  | only availiable in single-task learning |
 | `dataroot`   | directory root for NYUv2 dataset  | just put under the folder `im2im_pred` to avoid any concerns  |
-| `weight`   | weighting options for multi-task learning: equal (summation of all task losses), DWA (our proposal), uncert (our implementation on [Weight Uncertainty Method](https://arxiv.org/abs/1705.07115))  |  only available in multi-task learning |
+| `weight`   | weighting options for multi-task learning: equal (summation of all task losses), DWA (our proposal), uncert (our implementation of the [Weight Uncertainty Method](https://arxiv.org/abs/1705.07115))  |  only available in multi-task learning |
 | `temp`   | hyper-parameter temperature in DWA weighting option  | to determine the softness of task weighting |
-| `type`   | different versions of multi-task baseline split: standard, deep, wide  | only available in the split |
+| `type`   | different versions of multi-task baseline split: standard, deep, wide  | only available in the baseline split |
 
 To run any model, `cd im2im_pred/` and run `python MODEL_NAME.py --FLAG_NAME 'FLAG_OPTION'`.
 
@@ -39,7 +39,7 @@ Finally, run `python model_wrn_mtan.py` for training `python model_wrn_eval --da
 ### Other Notices
 1. The provided code is highly optimised. If you find any unusual behaviour, please post an issue or directly contact my email below.
 2.  Training the provided code will present a slightly better performance than the reported result in the paper. If you want to compare any model in the paper, please run the model directly with your own training strategies (learning rate, optimiser, etc), whilst keeping all models with the consistent training strategies to ensure fairness.
-3.  From my personal experience, building a better architecture is always more useful than finding a better task-weighting in multi-task learning.
+3.  From my personal experience, building a better architecture is always more helpful than finding a better task weighting in multi-task learning.
 
 ## Citation
 If you found this code/work to be useful in your own research, please considering citing the following:
