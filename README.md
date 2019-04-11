@@ -8,6 +8,7 @@ Under folder `im2im_pred`, we have provided our proposed model alongside with al
 Download our post-processed `NYUv2` dataset [here](https://www.dropbox.com/s/p2nn02wijg7peiy/nyuv2.zip?dl=0) which we used in the paper. The original `NYUv2` dataset can be found in [here](https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html) with pre-computed ground-truth normals are from [here](https://cs.nyu.edu/~deigen/dnl/).
 
 All the models (files) are described in the following table:
+
 | File Names        | Type       |  Flags  |  Comments |
 | ------------- |-------------| -----|-----|
 | `model_segnet_single.py`     | Single  | task, dataroot | standard single task learning |
@@ -17,6 +18,7 @@ All the models (files) are described in the following table:
 | `model_segnet_mtan.py`     | Multi  | weight, dataroot, temp | our approach |
 
 For each flag, it represents
+
 | Flag Names        | Usage  |  Comments |
 | ------------- |-------------| -----|
 | `task`     | pick task to train: semantic (semantic segmentation, depth-wise cross-entropy loss), depth (depth estimation, l1 norm loss) or normal (normal prediction, cos-similarity loss)  | only availiable in single-task learning |
