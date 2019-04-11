@@ -245,7 +245,7 @@ if opt.dataset == 'notimagenet':
 avg_cost = np.zeros([10, 4], dtype=np.float32)
 ans = {}
 for k in range(start_index, 10):
-    VGG16 = VGG16.train()
+    WideResNet_MTAN = WideResNet_MTAN.train()
     cost = np.zeros(2, dtype=np.float32)
     train_dataset = iter(im_train_set[k])
     train_batch = len(train_dataset)
@@ -253,11 +253,11 @@ for k in range(start_index, 10):
         train_data, train_label = train_dataset.next()
         train_label = train_label.type(torch.LongTensor)
         train_data, train_label = train_data.to(device), train_label.to(device)
-        train_pred1 = VGG16(train_data, k)
+        train_pred1 = WideResNet_MTAN(train_data, k)
 
         # reset optimizer with zero gradient
         optimizer.zero_grad()
-        train_loss1 = VGG16.model_fit(train_pred1, train_label, num_output=data_class[k])
+        train_loss1 = WideResNet_MTAN.model_fit(train_pred1, train_label, num_output=data_class[k])
         train_loss = torch.mean(train_loss1)
         train_loss.backward()
         optimizer.step()
@@ -276,11 +276,11 @@ for k in range(start_index, 10):
         train_data, train_label = train_dataset.next()
         train_label = train_label.type(torch.LongTensor)
         train_data, train_label = train_data.to(device), train_label.to(device)
-        train_pred1 = VGG16(train_data, k)
+        train_pred1 = WideResNet_MTAN(train_data, k)
 
         # reset optimizer with zero gradient
         optimizer.zero_grad()
-        train_loss1 = VGG16.model_fit(train_pred1, train_label, num_output=data_class[k])
+        train_loss1 = WideResNet_MTAN.model_fit(train_pred1, train_label, num_output=data_class[k])
         train_loss = torch.mean(train_loss1)
         train_loss.backward()
         optimizer.step()
@@ -295,7 +295,7 @@ for k in range(start_index, 10):
 
     # evaluating test data
     with torch.no_grad():
-        VGG16 = VGG16.eval()
+        WideResNet_MTAN = WideResNet_MTAN.eval()
         test_dataset = iter(im_test_set[k])
         test_batch = len(test_dataset)
         test_label = []
