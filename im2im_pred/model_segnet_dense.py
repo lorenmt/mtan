@@ -254,7 +254,7 @@ nyuv2_test_loader = torch.utils.data.DataLoader(
 
 # define parameters
 total_epoch = 200
-train_batch = 200
+train_batch = len(nyuv2_train_loader)
 test_batch = len(nyuv2_test_loader)
 T = opt.temp
 avg_cost = np.zeros([total_epoch, 24], dtype=np.float32)
@@ -297,8 +297,8 @@ for epoch in range(total_epoch):
         optimizer.step()
 
         cost[0] = train_loss[0].item()
-        cost[1] = SegNet_DENSE.compute_miou(torch.exp(train_pred[0]), train_label).item()
-        cost[2] = SegNet_DENSE.compute_iou(torch.exp(train_pred[0]), train_label).item()
+        cost[1] = SegNet_DENSE.compute_miou(train_pred[0], train_label).item()
+        cost[2] = SegNet_DENSE.compute_iou(train_pred[0], train_label).item()
         cost[3] = train_loss[1].item()
         cost[4], cost[5] = SegNet_DENSE.depth_error(train_pred[1], train_depth)
         cost[6] = train_loss[2].item()
