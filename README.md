@@ -3,7 +3,7 @@ This repository contains the source code of Multi-Task Attention Network (MTAN) 
 
 ## Experiments
 ### Image-to-Image Predictions (One-to-Many)
-Under folder `im2im_pred`, we have provided our proposed network alongside with all the baselines for `NYUv2` dataset presented in the paper. All the models were written in `pytorch`. So please first make sure you have  `pytorch 1.0` framework or above installed in your machine.
+Under the folder `im2im_pred`, we have provided our proposed network alongside with all the baselines on `NYUv2` dataset presented in the paper. All the models were written in `pytorch`. So please first make sure you have  `pytorch 1.0` framework or above installed in your machine.
 
 Download our pre-processed `NYUv2` dataset [here](https://www.dropbox.com/s/p2nn02wijg7peiy/nyuv2.zip?dl=0) which we used in the paper. The original `NYUv2` dataset can be found in [here](https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html) with pre-computed ground-truth normals from [here](https://cs.nyu.edu/~deigen/dnl/). 
 
