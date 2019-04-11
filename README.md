@@ -13,8 +13,9 @@ All the models (files) are described in the following table:
 | ------------- |-------------| -----|-----|
 | `model_segnet_single.py`     | Single  | task, dataroot | standard single task learning |
 | `model_segnet_stan.py`     | Single  | task, dataroot | attention network applied on one task |
-| `model_segnet_split.py`     | Multi  | weight, dataroot, temp, type | standard multi-task learning baseline which splits at the last layer (also known as hard-parameter sharing) |
+| `model_segnet_split.py`     | Multi  | weight, dataroot, temp, type | standard multi-task learning baseline in which the shared network splits at the last layer (also known as hard-parameter sharing) |
 | `model_segnet_cross.py`     | Multi  | weight, dataroot, temp | our implementation of the [Cross Stitch Network](https://arxiv.org/abs/1604.03539) |
+| `model_segnet_dense.py`     | Multi  | weight, dataroot, temp | standard multi-task learning baseline in which each task has its own paramter space (soft-paramter sharing)  |
 | `model_segnet_mtan.py`     | Multi  | weight, dataroot, temp | our approach |
 
 For each flag, it represents
