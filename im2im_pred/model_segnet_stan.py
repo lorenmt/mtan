@@ -164,7 +164,14 @@ class SegNet(nn.Module):
                     atten_decoder[i][j][1] = self.decoder_att[i][-j - 1](torch.cat((g_upsampl[j], atten_decoder[i][j][0]), dim=1))
                     atten_decoder[i][j][2] = (atten_decoder[i][j][1]) * g_decoder[j][-1]
 
-        pred = self.pred_task(atten_decoder[0][-1][-1])
+        # define task prediction layers
+        if opt.task == 'semantic':
+            pred = F.log_softmax(self.pred_task(g_decoder[i][1]), dim=1)
+        if opt.task == 'depth':
+            pred = self.pred_task(g_decoder[i][1])
+        if opt.task == 'normal':
+            pred = self.pred_task(g_decoder[i][1])
+            pred = pred / torch.norm(pred, p=2, dim=1, keepdim=True)
         return pred
 
     def model_fit(self, x_pred, x_output):
