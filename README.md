@@ -48,11 +48,12 @@ Finally, run `python model_wrn_mtan.py` for training `python model_wrn_eval.py -
 If you found this code/work to be useful in your own research, please considering citing the following:
 
 ```
-@article{liu2018mtan,
-  title={End-to-end multi-task learning with attention},
+@inproceedings{liu2019end,
+  title={End-to-End Multi-task Learning with Attention},
   author={Liu, Shikun and Johns, Edward and Davison, Andrew J},
-  journal={arXiv preprint arXiv:1803.10704},
-  year={2018}
+  booktitle={Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
+  pages={1871--1880},
+  year={2019}
 }
 ```
 
