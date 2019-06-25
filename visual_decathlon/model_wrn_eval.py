@@ -245,7 +245,7 @@ if opt.dataset == 'notimagenet':
 avg_cost = np.zeros([10, 4], dtype=np.float32)
 ans = {}
 for k in range(start_index, 10):
-    WideResNet_MTAN = WideResNet_MTAN.train()
+    WideResNet_MTAN.train()
     cost = np.zeros(2, dtype=np.float32)
     train_dataset = iter(im_train_set[k])
     train_batch = len(train_dataset)
@@ -295,7 +295,7 @@ for k in range(start_index, 10):
 
     # evaluating test data
     with torch.no_grad():
-        WideResNet_MTAN = WideResNet_MTAN.eval()
+        WideResNet_MTAN.eval()
         test_dataset = iter(im_test_set[k])
         test_batch = len(test_dataset)
         test_label = []

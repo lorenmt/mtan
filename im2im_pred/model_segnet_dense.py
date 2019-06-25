@@ -277,6 +277,7 @@ for epoch in range(total_epoch):
             lambda_weight[2, index] = 3 * np.exp(w_3 / T) / (np.exp(w_1 / T) + np.exp(w_2 / T) + np.exp(w_3 / T))
 
     # iteration for all batches
+    SegNet_DENSE.train()
     nyuv2_train_dataset = iter(nyuv2_train_loader)
     for k in range(train_batch):
         train_data, train_label, train_depth, train_normal = nyuv2_train_dataset.next()
@@ -306,6 +307,7 @@ for epoch in range(total_epoch):
         avg_cost[index, :12] += cost[:12] / train_batch
 
     # evaluating test data
+    SegNet_DENSE.eval()
     with torch.no_grad():  # operations inside don't track history
         nyuv2_test_dataset = iter(nyuv2_test_loader)
         for k in range(test_batch):

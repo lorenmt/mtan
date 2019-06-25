@@ -245,6 +245,7 @@ for index in range(total_epoch):
         cost = np.zeros(2, dtype=np.float32)
         train_dataset = iter(im_train_set[k])
         train_batch = len(train_dataset)
+        WideResNet_MTAN.train()
         for i in range(train_batch):
             train_data, train_label = train_dataset.next()
             train_label = train_label.type(torch.LongTensor)
@@ -267,6 +268,7 @@ for index in range(total_epoch):
             avg_cost[index][k][0:2] += cost / train_batch
 
         # evaluating test data
+        WideResNet_MTAN.eval()
         test_dataset = iter(im_test_set[k])
         test_batch = len(test_dataset)
         for i in range(test_batch):
