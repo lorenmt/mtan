@@ -11,7 +11,7 @@ Download our pre-processed `NYUv2` dataset [here](https://www.dropbox.com/s/p2nn
 
 **Update - Jun 2019**: I have now released the pre-processing `CityScapes` dataset with 2, 7, and 19-class semantic labels (see the paper for more details) and (inverse) depth labels. Download [256x512, 2.42GB] version [here](https://www.dropbox.com/s/q2333k4eyrnezbh/cityscapes.zip?dl=0) and [128x256, 651MB] version [here](https://www.dropbox.com/s/lg2ktu7o8hzwf99/cityscapes2.zip?dl=0).
 
-**Update - Oct 2019**: For pytorch 1.2 users: The mIoU evaluation method has now been updated to avoid "zeros issue" from computing binary masks. Also, to correctly run the code, please move the `scheduler.step` after calling the `optimizer.step()`, e.g. one line before the last performance printing step to fit the updated pytorch requirements. See more in the official pytorch documentation [here](https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate). 
+**Update - Oct 2019**: For pytorch 1.2 users: The mIoU evaluation method has now been updated to avoid "zeros issue" from computing binary masks. Also, to correctly run the code, please move the `scheduler.step()` after calling the `optimizer.step()`, e.g. one line before the last performance printing step to fit the updated pytorch requirements. See more in the official pytorch documentation [here](https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate). 
 
 All the models (files) are built with SegNet and described in the following table:
 
