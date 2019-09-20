@@ -5,9 +5,13 @@ This repository contains the source code of Multi-Task Attention Network (MTAN) 
 ### Image-to-Image Predictions (One-to-Many)
 Under the folder `im2im_pred`, we have provided our proposed network alongside with all the baselines on `NYUv2` dataset presented in the paper. All the models were written in `pytorch`. So please first make sure you have  `pytorch 1.0` framework or above installed in your machine.
 
-Download our pre-processed `NYUv2` dataset [here](https://www.dropbox.com/s/p2nn02wijg7peiy/nyuv2.zip?dl=0) which we used in the paper. The original `NYUv2` dataset can be found in [here](https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html) with pre-computed ground-truth normals from [here](https://cs.nyu.edu/~deigen/dnl/).
+Download our pre-processed `NYUv2` dataset [here](https://www.dropbox.com/s/p2nn02wijg7peiy/nyuv2.zip?dl=0) which we evaluated in the paper. We use the pre-computed ground-truth normals from [here](https://cs.nyu.edu/~deigen/dnl/). The raw 13-class NYUv2 dataset can be directly downloaded in [this repo]('https://github.com/ankurhanda/nyuv2-meta-data') with segmentation labels defined in [this repo]('https://github.com/ankurhanda/SceneNetv1.0/').
 
-Update: I have now released the pre-processing `CityScapes` dataset with 2, 7, and 19-class semantic labels (see the paper for more details) and (inverse) depth labels. Download [256x512, 2.42GB] version [here](https://www.dropbox.com/s/q2333k4eyrnezbh/cityscapes.zip?dl=0) and [128x256, 651MB] version [here](https://www.dropbox.com/s/lg2ktu7o8hzwf99/cityscapes2.zip?dl=0).
+*I am sorry that I am not able to provide the raw pre-processing code due to an unexpected computer crash.*
+
+**Update - Jun 2019**: I have now released the pre-processing `CityScapes` dataset with 2, 7, and 19-class semantic labels (see the paper for more details) and (inverse) depth labels. Download [256x512, 2.42GB] version [here](https://www.dropbox.com/s/q2333k4eyrnezbh/cityscapes.zip?dl=0) and [128x256, 651MB] version [here](https://www.dropbox.com/s/lg2ktu7o8hzwf99/cityscapes2.zip?dl=0).
+
+**Update - Oct 2019**: For pytorch 1.2 users: The mIoU evaluation method has now been updated to avoid "zeros issue" from computing binary masks. Also, to correctly run the code, please move the `scheduler.step` after calling the `optimizer.step()`, e.g. one line before the last performance printing step to fit the updated pytorch requirements. See more in the official pytorch documentation [here]('https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate'). 
 
 All the models (files) are built with SegNet and described in the following table:
 

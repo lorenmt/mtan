@@ -147,9 +147,9 @@ class SegNet(nn.Module):
             true_class = 0
             first_switch = True
             for j in range(self.class_nb):
-                pred_mask = torch.eq(x_pred_label[i], Variable(j*torch.ones(x_pred_label[i].shape).type(torch.LongTensor).to(device)))
-                true_mask = torch.eq(x_output_label[i], Variable(j*torch.ones(x_output_label[i].shape).type(torch.LongTensor).to(device)))
-                mask_comb = pred_mask + true_mask
+                pred_mask = torch.eq(x_pred_label[i], j * torch.ones(x_pred_label[i].shape).type(torch.LongTensor).to(device))
+                true_mask = torch.eq(x_output_label[i], j * torch.ones(x_output_label[i].shape).type(torch.LongTensor).to(device))
+                mask_comb = pred_mask.type(torch.FloatTensor) + true_mask.type(torch.FloatTensor)
                 union     = torch.sum((mask_comb > 0).type(torch.FloatTensor))
                 intsec    = torch.sum((mask_comb > 1).type(torch.FloatTensor))
                 if union == 0:
