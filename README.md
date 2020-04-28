@@ -34,7 +34,7 @@ For each flag, it represents
 | `temp`   | hyper-parameter temperature in DWA weighting option  | to determine the softness of task weighting |
 | `type`   | different versions of multi-task baseline split: standard, deep, wide  | only available in the baseline split |
 
-To run any model, `cd im2im_pred/` and run `python MODEL_NAME.py --FLAG_NAME 'FLAG_OPTION'`.
+To run any model, `cd im2im_pred/` and run `python MODEL_NAME.py --FLAG_NAME 'FLAG_OPTION'`. The final reported results in every task are averaged across last 10 epochs.
 
 ### Visual Decathlon Challenge (Many-to-Many)
 We have also provided source code for the recently proposed [Visual Decathlon Challenge](http://www.robots.ox.ac.uk/~vgg/decathlon/) for which we build MTAN based on [Wide Residual Network](https://arxiv.org/abs/1605.07146) from the implementation [here](https://github.com/meliketoy/wide-resnet.pytorch).
