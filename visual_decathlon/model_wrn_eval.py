@@ -302,7 +302,7 @@ for k in range(start_index, 10):
         for i in range(test_batch):
             test_data, _ = test_dataset.next()
             test_data = test_data.to(device)
-            test_pred1 = VGG16(test_data, k)
+            test_pred1 = WideResNet_MTAN(test_data, k)
 
             # calculate testing loss and accuracy
             test_predict = test_pred1.data.max(1)[1]
@@ -314,6 +314,12 @@ for k in range(start_index, 10):
               .format(data_name[k], avg_cost[k][0], avg_cost[k][1], avg_cost[k][2], avg_cost[k][3]))
         print('Evaluating DATASET: {:s} ...'.format(data_name[k]))
 
-pickle_out = open("ans.pickle", "wb")
-pickle.dump(ans, pickle_out)
-pickle_out.close()
+if opt.dataset == 'nonimagenet':
+    pickle_out = open("ans.pickle", "wb")
+    pickle.dump(ans, pickle_out)
+    pickle_out.close()
+elif opt.dataset == 'imagenet':
+    pickle_out = open("imagenet.pickle", "wb")
+    pickle.dump(ans, pickle_out)
+    pickle_out.close()
+
