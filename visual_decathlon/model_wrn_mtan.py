@@ -230,8 +230,6 @@ total_epoch = 400
 first_run = True
 avg_cost = np.zeros([total_epoch, 10, 4], dtype=np.float32)
 for index in range(total_epoch):
-    scheduler.step()
-
     # evaluate training data
     if index < 300:
         start_index = 0
@@ -294,6 +292,7 @@ for index in range(total_epoch):
         print('EPOCH: {:04d} | DATASET: {:s} || TRAIN: {:.4f} {:.4f} || TEST: {:.4f} {:.4f}'
               .format(index, data_name[k], avg_cost[index][k][0], avg_cost[index][k][1], avg_cost[index][k][2], avg_cost[index][k][3]))
     print('===================================================')
+    scheduler.step()
     if index % 5 == 0 and index <= 300:
         torch.save(WideResNet_MTAN.state_dict(), 'model_weights/imagenet')
     if index % 5 == 0 and index > 300:
