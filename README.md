@@ -43,7 +43,7 @@ Benchmarking multi-task learning is always a tricky question, since the performa
 
 For a more standardized and fair comparison, I would suggests researchers adopt the evaluation method defined in Section 5, Equation 4 of [this paper](https://arxiv.org/pdf/1904.08918.pdf), which computes the *average relative task improvements* over single task learning.
 
-![](https://latex.codecogs.com/svg.latex?%5CDelta_m%20%3D%20%5Cfrac%7B1%7D%7BT%7D%5Csum_%7Bi%3D1%7D%5ET%20%28-1%29%5E%7Bl_i%7D%28M_%7Bm%2Ci%7D%20-%20M_%7Bb%2Ci%7D%29/M_%7Bb%2Ci%7D)
+<img src="http://www.sciweavers.org/tex2img.php?eq=%5CDelta_m%20%3D%20%5Cfrac%7B1%7D%7BT%7D%5Csum_%7Bi%3D1%7D%5ET%20%28-1%29%5E%7Bl_i%7D%28M_%7Bm%2Ci%7D%20-%20M_%7Bb%2Ci%7D%29%2FM_%7Bb%2Ci%7D&bc=Transparent&fc=Black&im=png&fs=18&ff=modern&edit=0" align="center" border="0" alt="\Delta_m = \frac{1}{T}\sum_{i=1}^T (-1)^{l_i}(M_{m,i} - M_{b,i})/M_{b,i}" width="398" height="75" />
 
 for which `l_i=1` if a lower value means a better performance for task `i`, and `l_i=0` otherwise; `T` is number of tasks; `M_m` represents the performance of evaluated multi-task learning method and `M_b` represents the baseline method. We normally choose the baseline method to be the single task learning using the same backbone architecture.
 
