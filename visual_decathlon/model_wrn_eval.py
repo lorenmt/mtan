@@ -314,7 +314,7 @@ for k in range(start_index, 10):
               .format(data_name[k], avg_cost[k][0], avg_cost[k][1], avg_cost[k][2], avg_cost[k][3]))
         print('Evaluating DATASET: {:s} ...'.format(data_name[k]))
 
-if opt.dataset == 'nonimagenet':
+if opt.dataset == 'notimagenet':
     pickle_out = open("ans.pickle", "wb")
     pickle.dump(ans, pickle_out)
     pickle_out.close()
