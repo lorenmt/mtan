@@ -278,7 +278,7 @@ for epoch in range(total_epoch):
         train_loss = SegNet_CROSS.model_fit(train_pred[0], train_label, train_pred[1], train_depth, train_pred[2], train_normal)
 
         if opt.weight == 'equal' or opt.weight == 'dwa':
-            loss = torch.mean(sum(lambda_weight[i, index] * train_loss[i] for i in range(3)))
+            loss = sum([lambda_weight[i, index] * train_loss[i] for i in range(3)])
         else:
             loss = sum(1 / (2 * torch.exp(logsigma[i])) * train_loss[i] + logsigma[i] / 2 for i in range(3))
 
