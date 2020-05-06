@@ -15,7 +15,7 @@ Download our pre-processed `NYUv2` dataset [here](https://www.dropbox.com/s/p2nn
 
 **Update - May 2020**: We now have provided our official MTAN-DeepLabv3 (or ResNet-like architecture) design to support more complicated and modern multi-task network backbone. Please check out `im2im_pred/model_resnet_mtan` for more details. One should easily replace this model with any original training methods defined in `im2im_pred`.
 
-All the models (files) are built with SegNet and described in the following table:
+All models (files) built with SegNet (proposed in the original paper), are described in the following table:
 
 | File Name        | Type       |  Flags  |  Comments |
 | ------------- |-------------| -----|-----|
@@ -43,7 +43,7 @@ Benchmarking multi-task learning is always a tricky question, since the performa
 
 For a more standardized and fair comparison, I would suggests researchers adopt the evaluation method defined in Section 5, Equation 4 of [this paper](https://arxiv.org/pdf/1904.08918.pdf), which computes the *average relative task improvements* over single task learning.
 
-<img src="https://latex.codecogs.com/gif.latex?%5CDelta_m%20%3D%20%5Cfrac%7B1%7D%7BT%7D%5Csum_%7Bi%3D1%7D%5ET%20%28-1%29%5E%7Bl_i%7D%28M_%7Bm%2Ci%7D%20-%20M_%7Bb%2Ci%7D%29/M_%7Bb%2Ci%7D">
+![equation](https://latex.codecogs.com/gif.latex?%5CDelta_m%20%3D%20%5Cfrac%7B1%7D%7BT%7D%5Csum_%7Bi%3D1%7D%5ET%20%28-1%29%5E%7Bl_i%7D%28M_%7Bm%2Ci%7D%20-%20M_%7Bb%2Ci%7D%29/M_%7Bb%2Ci%7D)
 
 for which `l_i=1` if a lower value means a better performance for task `i`, and `l_i=0` otherwise; `T` is number of tasks; `M_m` represents the performance of evaluated multi-task learning method and `M_b` represents the baseline method. We normally choose the baseline method to be the single task learning using the same backbone architecture.
 
