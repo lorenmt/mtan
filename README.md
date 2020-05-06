@@ -43,10 +43,6 @@ Benchmarking multi-task learning is always a tricky question, since the performa
 
 For a more standardized and fair comparison, I would suggests researchers adopt the evaluation method defined in Section 5, Equation 4 of [this paper](https://arxiv.org/pdf/1904.08918.pdf), which computes the *average relative task improvements* over single task learning.
 
-![](https://microsoft.codecogs.com/svg.latex?\Delta_m%20=%20\frac{1}{T}\sum_{i=1}^T%20(-1)^{l_i}(M_{m,i}%20-%20M_{b,i})/M_{b,i})
-
-for which `l_i=1` if a lower value means a better performance for task `i`, and `l_i=0` otherwise; `T` is number of tasks; `M_m` represents the performance of evaluated multi-task learning method and `M_b` represents the baseline method. We normally choose the baseline method to be the single task learning using the same backbone architecture.
-
 ### Visual Decathlon Challenge (Many-to-Many)
 We have also provided source code for the recently proposed [Visual Decathlon Challenge](http://www.robots.ox.ac.uk/~vgg/decathlon/) for which we build MTAN based on [Wide Residual Network](https://arxiv.org/abs/1605.07146) from the implementation [here](https://github.com/meliketoy/wide-resnet.pytorch).
 
