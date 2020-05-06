@@ -41,7 +41,7 @@ To run any model, `cd im2im_pred/` and run `python MODEL_NAME.py --FLAG_NAME 'FL
 ### Benchmarking Multi-task Learning
 Benchmarking multi-task learning is always a tricky question, since the performance and evaluation method for each task is different. In my original paper, I simply averaged the performance for each task from the last 10 epochs, assuming we do not have access to the validation data. 
 
-For a more standardized and fair comparison, I would suggests researchers adopt the evaluation method defined in Section 5, Equation 4 of [this paper](https://arxiv.org/pdf/1904.08918.pdf), which computes the *average relative task improvements* over single task learning.
+For a more standardized and fair comparison, I would suggest researchers adopt the evaluation method defined in Section 5, Equation 4 of [this paper](https://arxiv.org/pdf/1904.08918.pdf), which computes the *average relative task improvements* over single task learning.
 
 ### Visual Decathlon Challenge (Many-to-Many)
 We have also provided source code for the recently proposed [Visual Decathlon Challenge](http://www.robots.ox.ac.uk/~vgg/decathlon/) for which we build MTAN based on [Wide Residual Network](https://arxiv.org/abs/1605.07146) from the implementation [here](https://github.com/meliketoy/wide-resnet.pytorch).
