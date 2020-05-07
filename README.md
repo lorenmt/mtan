@@ -44,11 +44,18 @@ Benchmarking multi-task learning is always a tricky question, since the performa
 For a more standardized and fair comparison, I would suggest researchers adopt the evaluation method defined in Section 5, Equation 4 of [this paper](https://arxiv.org/pdf/1904.08918.pdf), which computes the *average relative task improvements* over single task learning.
 
 ### Visual Decathlon Challenge (Many-to-Many)
-We have also provided source code for the recently proposed [Visual Decathlon Challenge](http://www.robots.ox.ac.uk/~vgg/decathlon/) for which we build MTAN based on [Wide Residual Network](https://arxiv.org/abs/1605.07146) from the implementation [here](https://github.com/meliketoy/wide-resnet.pytorch).
+We also provided source code for the recently proposed [Visual Decathlon Challenge](http://www.robots.ox.ac.uk/~vgg/decathlon/) for which we build MTAN based on [Wide Residual Network](https://arxiv.org/abs/1605.07146) from the implementation [here](https://github.com/meliketoy/wide-resnet.pytorch).
 
-To run the code, first download the dataset and devkit at the official Visual Decathlon Challenge website [here](http://www.robots.ox.ac.uk/~vgg/decathlon/#download) and put it in the folder `visual_decathlon`. Then, put `decathlon_mean_std.pickle` into the folder of the downloaded dataset `decathlon-1.0-data`.
+To run the code, please follow the steps below.
+1. Download the dataset and devkit at the official Visual Decathlon Challenge website [here](http://www.robots.ox.ac.uk/~vgg/decathlon/#download). Move the dataset folder `decathlon-1.0-data` under the folder `visual_decathlon`. Then, move `decathlon_mean_std.pickle` into the folder of the dataset folder `decathlon-1.0-data`.
 
-Finally, run `python model_wrn_mtan.py` for training `python model_wrn_eval.py --dataset 'imagenet' and 'notimagenet'` for evaluation and `python coco_results.py` for COCO format for online evaluation.
+2. Create a directory under `test` folder for each dataset, and move all test files into that created folder. (That is to fit the PyTorch dataloader format.)
+
+3. Install `setup.py` in decathlon devkit under `code/coco/PythonAPI` folder. And then move `pycocotools` and `annotations` from devkit into `visual_decathlon` folder.
+
+4. `cd visual_decathlon` and Run `python model_wrn_mtan.py --gpu [GPU_ID] --mode [eval, or all]` for training. `eval` represents evaluating on validation dataset (normally for debugging or hyper-parameter tuning), and `all` represents training on all datasets (normally for final testing). 
+
+5. Run `python model_wrn_eval.py --dataset 'imagenet' and 'notimagenet'` (sequentially) for evaluating on Imagenet and other datasets. And finally, run `python coco_results.py` for converting into COCO format for online evaluation.
 
 ### Other Notices
 1. The provided code is highly optimised for readability. If you find any unusual behaviour, please post an issue or directly contact my email below.

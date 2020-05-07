@@ -4,10 +4,10 @@ import json
 import numpy as np
 import pickle
 
-pickle_in = open("imagenet.pickle","rb")
+pickle_in = open("imagenet.pickle", "rb")
 imagenet = pickle.load(pickle_in)
 
-pickle_in = open("ans.pickle","rb")
+pickle_in = open("ans.pickle", "rb")
 ans = pickle.load(pickle_in)
 
 ans['imagenet12'] = imagenet['imagenet12']
@@ -17,7 +17,7 @@ class_name = ['aircraft', 'cifar100', 'daimlerpedcls', 'dtd', 'gtsrb',
 
 dict_key = {}
 for i in range(10):
-    cocoGt = COCO('decathlon-1.0/annotations/{:s}_val.json'.format(class_name[i]))
+    cocoGt = COCO('annotations/{:s}_val.json'.format(class_name[i]))
     imgIds = sorted(cocoGt.getImgIds())
     cat = cocoGt.getCatIds()
     data_key = np.zeros(len(imgIds))
@@ -32,7 +32,7 @@ for i in range(10):
 
 res = []
 for i in range(10):
-    cocoGt = COCO('decathlon-1.0/annotations/{:s}_test_stripped.json'.format(class_name[i]))
+    cocoGt = COCO('annotations/{:s}_test_stripped.json'.format(class_name[i]))
     imgIds = sorted(cocoGt.getImgIds())
     cat = cocoGt.getCatIds()
     for item in imgIds:

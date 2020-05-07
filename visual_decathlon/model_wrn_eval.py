@@ -65,8 +65,6 @@ class WideResNet(nn.Module):
         self.bn1 = nn.BatchNorm2d(filter[3], momentum=0.9)
 
         self.linear = nn.ModuleList([nn.Sequential(
-            # nn.Linear(filter[3], filter[3]),
-            # nn.ReLU(inplace=True),
             nn.Linear(filter[3], num_classes[0]),
             nn.Softmax(dim=1))])
 
@@ -127,6 +125,7 @@ class WideResNet(nn.Module):
             for j in range(4):
                 atten_encoder[i][j] = [0] * 3
 
+        # shared encoder
         g_encoder[0] = self.conv1(x)
         g_encoder[1] = self.layer1(g_encoder[0])
         g_encoder[2] = self.layer2(g_encoder[1])
@@ -140,14 +139,13 @@ class WideResNet(nn.Module):
                 atten_encoder[k][j][2] = self.encoder_block_att[j](atten_encoder[k][j][1])
                 atten_encoder[k][j][2] = F.max_pool2d(atten_encoder[k][j][2], kernel_size=2, stride=2)
             else:
-                atten_encoder[k][j][0] = self.encoder_att[k][j](
-                    torch.cat((g_encoder[j], atten_encoder[k][j - 1][2]), dim=1))
+                atten_encoder[k][j][0] = self.encoder_att[k][j](torch.cat((g_encoder[j], atten_encoder[k][j - 1][2]), dim=1))
                 atten_encoder[k][j][1] = (atten_encoder[k][j][0]) * g_encoder[j]
                 atten_encoder[k][j][2] = self.encoder_block_att[j](atten_encoder[k][j][1])
                 if j < 3:
                     atten_encoder[k][j][2] = F.max_pool2d(atten_encoder[k][j][2], kernel_size=2, stride=2)
 
-        pred = F.adaptive_avg_pool2d(atten_encoder[k][-1][-1], 1)
+        pred = F.avg_pool2d(atten_encoder[k][-1][-1], 8)
         pred = pred.view(pred.size(0), -1)
 
         out = self.linear[k](pred)
@@ -237,18 +235,22 @@ if opt.dataset == 'imagenet':
     optimizer = optim.SGD(WideResNet_MTAN.parameters(), lr=0.1 * (0.5 ** 6), weight_decay=5e-5, nesterov=True, momentum=0.9)
     WideResNet_MTAN.load_state_dict(torch.load('model_weights/imagenet'))
     start_index = 0
+    end_index = 1
 if opt.dataset == 'notimagenet':
     optimizer = optim.SGD(WideResNet_MTAN.parameters(), lr=0.01 * (0.5 ** 2), weight_decay=5e-5, nesterov=True, momentum=0.9)
     WideResNet_MTAN.load_state_dict(torch.load('model_weights/wrn_final'))
     start_index = 1
+    end_index = 10
 
 avg_cost = np.zeros([10, 4], dtype=np.float32)
 ans = {}
-for k in range(start_index, 10):
+for k in range(start_index, end_index):
     WideResNet_MTAN.train()
     cost = np.zeros(2, dtype=np.float32)
     train_dataset = iter(im_train_set[k])
     train_batch = len(train_dataset)
+    # We train the same training and validation dataset for another epoch to compute the dataset specific BN statistics
+    # in shared layers before evaluating them on test dataset.
     for i in range(train_batch):
         train_data, train_label = train_dataset.next()
         train_label = train_label.type(torch.LongTensor)

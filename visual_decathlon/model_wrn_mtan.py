@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import argparse
 
 import torch.nn.init as init
 import torch.nn.functional as F
@@ -9,6 +10,13 @@ import torch.optim as optim
 import pickle
 
 from torchvision.transforms import transforms
+
+parser = argparse.ArgumentParser(description='Multi-task: Attention Network on WRN')
+parser.add_argument('--mode', default='eval', type=str,
+                    help='eval: do not train on eval datasests; all: train on eval datasets')
+parser.add_argument('--gpu', default=0, type=int, help='GPU id')
+opt = parser.parse_args()
+
 
 
 def conv3x3(in_planes, out_planes, stride=1):
@@ -121,6 +129,7 @@ class WideResNet(nn.Module):
             for j in range(4):
                 atten_encoder[i][j] = [0] * 3
 
+        # shared encoder
         g_encoder[0] = self.conv1(x)
         g_encoder[1] = self.layer1(g_encoder[0])
         g_encoder[2] = self.layer2(g_encoder[1])
@@ -134,8 +143,7 @@ class WideResNet(nn.Module):
                 atten_encoder[k][j][2] = self.encoder_block_att[j](atten_encoder[k][j][1])
                 atten_encoder[k][j][2] = F.max_pool2d(atten_encoder[k][j][2], kernel_size=2, stride=2)
             else:
-                atten_encoder[k][j][0] = self.encoder_att[k][j](
-                    torch.cat((g_encoder[j], atten_encoder[k][j - 1][2]), dim=1))
+                atten_encoder[k][j][0] = self.encoder_att[k][j](torch.cat((g_encoder[j], atten_encoder[k][j - 1][2]), dim=1))
                 atten_encoder[k][j][1] = (atten_encoder[k][j][0]) * g_encoder[j]
                 atten_encoder[k][j][2] = self.encoder_block_att[j](atten_encoder[k][j][1])
                 if j < 3:
@@ -220,7 +228,7 @@ for i in range(10):
                                                  num_workers=4, pin_memory=True)
 
 # define WRN model
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:{}".format(opt.gpu) if torch.cuda.is_available() else "cpu")
 WideResNet_MTAN = WideResNet(depth=28, widen_factor=4, num_classes=data_class).to(device)
 optimizer = optim.SGD(WideResNet_MTAN.parameters(), lr=0.1, weight_decay=5e-5, nesterov=True, momentum=0.9)
 scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=50, gamma=0.5)
@@ -266,36 +274,54 @@ for index in range(total_epoch):
             avg_cost[index][k][0:2] += cost / train_batch
 
         # evaluating test data
-        WideResNet_MTAN.eval()
         test_dataset = iter(im_test_set[k])
         test_batch = len(test_dataset)
-        for i in range(test_batch):
-            test_data, test_label = test_dataset.next()
-            test_label = test_label.type(torch.LongTensor)
-            test_data, test_label = test_data.to(device), test_label.to(device)
-            test_pred1 = WideResNet_MTAN(test_data, k)
+        if opt.mode == 'all':
+            for i in range(test_batch):
+                test_data, test_label = test_dataset.next()
+                test_label = test_label.type(torch.LongTensor)
+                test_data, test_label = test_data.to(device), test_label.to(device)
+                test_pred1 = WideResNet_MTAN(test_data, k)
 
-            optimizer.zero_grad()
-            test_loss1 = WideResNet_MTAN.model_fit(test_pred1, test_label, num_output=data_class[k])
-            test_loss = torch.mean(test_loss1)
-            test_loss.backward()
-            optimizer.step()
+                optimizer.zero_grad()
+                test_loss1 = WideResNet_MTAN.model_fit(test_pred1, test_label, num_output=data_class[k])
+                test_loss = torch.mean(test_loss1)
+                test_loss.backward()
+                optimizer.step()
 
-            # calculate testing loss and accuracy
-            test_predict_label1 = test_pred1.data.max(1)[1]
-            test_acc1 = test_predict_label1.eq(test_label).sum().item() / test_data.shape[0]
+                # calculate testing loss and accuracy
+                test_predict_label1 = test_pred1.data.max(1)[1]
+                test_acc1 = test_predict_label1.eq(test_label).sum().item() / test_data.shape[0]
 
-            cost[0] = torch.mean(test_loss1).item()
-            cost[1] = test_acc1
-            avg_cost[index][k][2:] += cost / test_batch
+                cost[0] = torch.mean(test_loss1).item()
+                cost[1] = test_acc1
+                avg_cost[index][k][2:] += cost / test_batch
+        elif opt.mode == 'eval':
+            WideResNet_MTAN.eval()
+            with torch.no_grad():
+                for i in range(test_batch):
+                    test_data, test_label = test_dataset.next()
+                    test_label = test_label.type(torch.LongTensor)
+                    test_data, test_label = test_data.to(device), test_label.to(device)
 
+                    test_pred1 = WideResNet_MTAN(test_data, k)
+                    test_loss1 = WideResNet_MTAN.model_fit(test_pred1, test_label, num_output=data_class[k])
+                    test_loss = torch.mean(test_loss1)
+
+                    # calculate testing loss and accuracy
+                    test_predict_label1 = test_pred1.data.max(1)[1]
+                    test_acc1 = test_predict_label1.eq(test_label).sum().item() / test_data.shape[0]
+
+                    cost[0] = torch.mean(test_loss1).item()
+                    cost[1] = test_acc1
+                    avg_cost[index][k][2:] += cost / test_batch
         print('EPOCH: {:04d} | DATASET: {:s} || TRAIN: {:.4f} {:.4f} || TEST: {:.4f} {:.4f}'
               .format(index, data_name[k], avg_cost[index][k][0], avg_cost[index][k][1], avg_cost[index][k][2], avg_cost[index][k][3]))
     print('===================================================')
     scheduler.step()
-    if index % 5 == 0 and index <= 300:
+    if (index + 1) % 5 == 0 and index <= 300:
         torch.save(WideResNet_MTAN.state_dict(), 'model_weights/imagenet')
-    if index % 5 == 0 and index > 300:
+    if (index + 1) % 5 == 0 and index > 300:
         torch.save(WideResNet_MTAN.state_dict(), 'model_weights/wrn_final')
 
 
