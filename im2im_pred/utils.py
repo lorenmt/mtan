@@ -70,12 +70,12 @@ def compute_iou(x_pred, x_output):
     for i in range(batch_size):
         if i == 0:
             pixel_acc = torch.div(
-                torch.sum(torch.eq(x_pred_label[i], x_output_label[i]).type(torch.FloatTensor)),
-                torch.sum((x_output_label[i] >= 0).type(torch.FloatTensor)))
+                torch.sum(torch.eq(x_pred_label[i], x_output_label[i]).float()),
+                torch.sum((x_output_label[i] >= 0).float()))
         else:
             pixel_acc = pixel_acc + torch.div(
-                torch.sum(torch.eq(x_pred_label[i], x_output_label[i]).type(torch.FloatTensor)),
-                torch.sum((x_output_label[i] >= 0).type(torch.FloatTensor)))
+                torch.sum(torch.eq(x_pred_label[i], x_output_label[i]).float()),
+                torch.sum((x_output_label[i] >= 0).float()))
     return pixel_acc / batch_size
 
 
@@ -128,7 +128,7 @@ def multi_task_trainer(train_loader, test_loader, multi_task_model, device, opti
         train_dataset = iter(train_loader)
         for k in range(train_batch):
             train_data, train_label, train_depth, train_normal = train_dataset.next()
-            train_data, train_label = train_data.to(device), train_label.type(torch.LongTensor).to(device)
+            train_data, train_label = train_data.to(device), train_label.long().to(device)
             train_depth, train_normal = train_depth.to(device), train_normal.to(device)
 
             train_pred, logsigma = multi_task_model(train_data)
@@ -161,7 +161,7 @@ def multi_task_trainer(train_loader, test_loader, multi_task_model, device, opti
             test_dataset = iter(test_loader)
             for k in range(test_batch):
                 test_data, test_label, test_depth, test_normal = test_dataset.next()
-                test_data, test_label = test_data.to(device), test_label.type(torch.LongTensor).to(device)
+                test_data, test_label = test_data.to(device), test_label.long().to(device)
                 test_depth, test_normal = test_depth.to(device), test_normal.to(device)
 
                 test_pred, _ = multi_task_model(test_data)
@@ -207,7 +207,7 @@ def single_task_trainer(train_loader, test_loader, single_task_model, device, op
         train_dataset = iter(train_loader)
         for k in range(train_batch):
             train_data, train_label, train_depth, train_normal = train_dataset.next()
-            train_data, train_label = train_data.to(device), train_label.type(torch.LongTensor).to(device)
+            train_data, train_label = train_data.to(device), train_label.long().to(device)
             train_depth, train_normal = train_depth.to(device), train_normal.to(device)
 
             train_pred = single_task_model(train_data)
@@ -243,7 +243,7 @@ def single_task_trainer(train_loader, test_loader, single_task_model, device, op
             test_dataset = iter(test_loader)
             for k in range(test_batch):
                 test_data, test_label, test_depth, test_normal = test_dataset.next()
-                test_data, test_label = test_data.to(device),  test_label.type(torch.LongTensor).to(device)
+                test_data, test_label = test_data.to(device),  test_label.long().to(device)
                 test_depth, test_normal = test_depth.to(device), test_normal.to(device)
 
                 test_pred = single_task_model(test_data)
