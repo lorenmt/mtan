@@ -39,7 +39,7 @@ For each flag, it represents
 | `type`   | different versions of multi-task baseline split: standard, deep, wide  | only available in the baseline split |
 | `apply_augmentation`   | toggle on to apply data augmentation in NYUv2 to avoid over-fitting  | available in all training models |
 
-To run any model, `cd im2im_pred/` and run `python MODEL_NAME.py --FLAG_NAME 'FLAG_OPTION'` (default option is training without augmentation). Toggle on 'apply_augmentation' to train with data augmentation: `python MODEL_NAME.py --FLAG_NAME 'FLAG_OPTION' --apply_augmentation`.
+To run any model, `cd im2im_pred/` and run `python MODEL_NAME.py --FLAG_NAME 'FLAG_OPTION'` (default option is training without augmentation). Toggle on `apply_augmentation` to train with data augmentation: `python MODEL_NAME.py --FLAG_NAME 'FLAG_OPTION' --apply_augmentation`.
 
 ### Benchmarking Multi-task Learning
 Benchmarking multi-task learning is always a tricky question, since the performance and evaluation method for each task is different. In the original paper, I simply averaged the performance for each task from the last 10 epochs, assuming we do not have access to the validation data. 
