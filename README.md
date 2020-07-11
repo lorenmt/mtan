@@ -11,9 +11,11 @@ Download our pre-processed `NYUv2` dataset [here](https://www.dropbox.com/s/p2nn
 
 **Update - Jun 2019**: I have now released the pre-processing `CityScapes` dataset with 2, 7, and 19-class semantic labels (see the paper for more details) and (inverse) depth labels. Download [256x512, 2.42GB] version [here](https://www.dropbox.com/s/q2333k4eyrnezbh/cityscapes.zip?dl=0) and [128x256, 651MB] version [here](https://www.dropbox.com/s/lg2ktu7o8hzwf99/cityscapes2.zip?dl=0).
 
-**Update - Oct 2019**: For pytorch 1.2 users: The mIoU evaluation method has now been updated to avoid "zeros issue" from computing binary masks. Also, to correctly run the code, please move the `scheduler.step()` after calling the `optimizer.step()`, e.g. one line before the last performance printing step to fit the updated pytorch requirements. See more in the official pytorch documentation [here](https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate). 
+**Update - Oct 2019**: For pytorch 1.2 users: The mIoU evaluation method has now been updated to avoid "zeros issue" from computing binary masks. Also, to correctly run the code, please move the `scheduler.step()` after calling the `optimizer.step()`, e.g. one line before the last performance printing step to fit the updated pytorch requirements. See more in the official pytorch documentation [here](https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate). [We have fixed this in the latest commit.]
 
-**Update - May 2020**: We now have provided our official MTAN-DeepLabv3 (or ResNet-like architecture) design to support more complicated and modern multi-task network backbone. Please check out `im2im_pred/model_resnet_mtan` for more details. One should easily replace this model with any original training methods defined in `im2im_pred`.
+**Update - May 2020**: We now have provided our official MTAN-DeepLabv3 (or ResNet-like architecture) design to support more complicated and modern multi-task network backbone. Please check out `im2im_pred/model_resnet_mtan` for more details. One should easily replace this model with any training template defined in `im2im_pred`.
+
+**Update - July 2020**: We have further improved the readability and updated all code bases in `im2im_pred` to comply the current latest version PyTorch 1.5. We fixed a bug to exclude non-defined pixel predictions for a more accurate mean IoU computation in semantic segmentation tasks. 
 
 All models (files) built with SegNet (proposed in the original paper), are described in the following table:
 
@@ -39,7 +41,7 @@ For each flag, it represents
 To run any model, `cd im2im_pred/` and run `python MODEL_NAME.py --FLAG_NAME 'FLAG_OPTION'`.
 
 ### Benchmarking Multi-task Learning
-Benchmarking multi-task learning is always a tricky question, since the performance and evaluation method for each task is different. In my original paper, I simply averaged the performance for each task from the last 10 epochs, assuming we do not have access to the validation data. 
+Benchmarking multi-task learning is always a tricky question, since the performance and evaluation method for each task is different. In the original paper, I simply averaged the performance for each task from the last 10 epochs, assuming we do not have access to the validation data. 
 
 For a more standardized and fair comparison, I would suggest researchers adopt the evaluation method defined in Section 5, Equation 4 of [this paper](https://arxiv.org/pdf/1904.08918.pdf), which computes the *average relative task improvements* over single task learning.
 
@@ -59,7 +61,7 @@ To run the code, please follow the steps below.
 
 ### Other Notices
 1. The provided code is highly optimised for readability. If you find any unusual behaviour, please post an issue or directly contact my email below.
-2.  Training the provided code will result slightly different performances (depending on the type of task) than the reported numbers in the paper for image-to-image prediction tasks. But, the rankings stay the same. If you want to compare any models in the paper for image-to-image prediction tasks, please re-run the model directly with your own training strategies (learning rate, optimiser, etc) and keep all training strategies consistent to ensure fairness. To compare results in Visual Decathlon Challenge, you may directly check out the results in the paper. To compare with your own research, please build your multi-task network with the same backbone architecture: SegNet for image-to-image tasks, and Wide Residual Network for the Visual Decathlon Challenge. 
+2.  Training the provided code will result slightly different performances (depending on the type of task) than the reported numbers in the paper for image-to-image prediction tasks. But, the rankings stay the same. If you want to compare any models in the paper for image-to-image prediction tasks, please re-run the model directly with your own training strategies (learning rate, optimiser, etc) and keep all training strategies consistent to ensure fairness. To compare results in Visual Decathlon Challenge, you may directly check out the results in the paper. To compare with your own research, please build your multi-task network with the same backbone architecture.
 3.  From my personal experience, designing a better architecture is usually more helpful (and easier) than finding a better task weighting in multi-task learning.
 
 ## Citation
@@ -76,7 +78,7 @@ If you found this code/work to be useful in your own research, please considerin
 ```
 
 ## Acknowledgement
-We would like to thank Simon Vandenhende for his help on MTAN-DeepLabv3 design. 
+We would like to thank Simon Vandenhende for his help on MTAN-DeepLabv3 design, and Jialong Wu on his help on mIoU bug fix. 
 
 ## Contact
 If you have any questions, please contact `sk.lorenmt@gmail.com`.

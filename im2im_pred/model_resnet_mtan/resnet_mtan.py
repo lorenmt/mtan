@@ -1,9 +1,11 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import resnet
 
 from resnet_dilated import ResnetDilated
 from aspp import DeepLabHead
+from resnet import Bottleneck, conv1x1
 
 
 class MTANDeepLabv3(nn.Module):
@@ -12,8 +14,8 @@ class MTANDeepLabv3(nn.Module):
         backbone = ResnetDilated(resnet.__dict__['resnet50'](pretrained=True))
         ch = [256, 512, 1024, 2048]
         
-        self.tasks = ['segmentation', 'depth'] 
-        self.num_out_channels = {'segmentation': 13, 'depth': 1}
+        self.tasks = ['segmentation', 'depth', 'normal']
+        self.num_out_channels = {'segmentation': 13, 'depth': 1, 'normal': 3}
         
         self.shared_conv = nn.Sequential(backbone.conv1, backbone.bn1, backbone.relu1, backbone.maxpool)
 
@@ -89,9 +91,13 @@ class MTANDeepLabv3(nn.Module):
         a_4 = [a_4_mask_i * u_4_t for a_4_mask_i in a_4_mask]
         
         # Task specific decoders
-        out = {}
+        out = [0 for _ in self.tasks]
         for i, t in enumerate(self.tasks):
-            out[t] = nn.functional.interpolate(self.decoders[i](a_4[i]), size=out_size, mode='bilinear').squeeze()
+            out[i] = F.interpolate(self.decoders[i](a_4[i]), size=out_size, mode='bilinear')
+            if t == 'segmentation':
+                out[i] = F.log_softmax(out[i], dim=1)
+            if t == 'normal':
+                out[i] = out[i] / torch.norm(out[i], p=2, dim=1, keepdim=True)
         return out
     
     def att_layer(self, in_channel, intermediate_channel, out_channel):
@@ -104,7 +110,6 @@ class MTANDeepLabv3(nn.Module):
             nn.Sigmoid())
         
     def conv_layer(self, in_channel, out_channel):
-        from resnet import Bottleneck, conv1x1
         downsample = nn.Sequential(conv1x1(in_channel, 4 * out_channel, stride=1),
                                    nn.BatchNorm2d(4 * out_channel))
         return Bottleneck(in_channel, out_channel, downsample=downsample)

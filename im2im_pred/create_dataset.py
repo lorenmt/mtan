@@ -14,7 +14,7 @@ class NYUv2(Dataset):
         self.train = train
         self.root = os.path.expanduser(root)
 
-        # R\read the data file
+        # read the data file
         if train:
             self.data_path = root + '/train'
         else:
@@ -30,7 +30,7 @@ class NYUv2(Dataset):
         depth = torch.from_numpy(np.moveaxis(np.load(self.data_path + '/depth/{:d}.npy'.format(index)), -1, 0))
         normal = torch.from_numpy(np.moveaxis(np.load(self.data_path + '/normal/{:d}.npy'.format(index)), -1, 0))
 
-        return image.type(torch.FloatTensor), semantic.type(torch.FloatTensor), depth.type(torch.FloatTensor), normal.type(torch.FloatTensor)
+        return image.float(), semantic.float(), depth.float(), normal.float()
 
     def __len__(self):
         return self.data_len
