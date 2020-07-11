@@ -15,7 +15,7 @@ Download our pre-processed `NYUv2` dataset [here](https://www.dropbox.com/s/p2nn
 
 **Update - May 2020**: We now have provided our official MTAN-DeepLabv3 (or ResNet-like architecture) design to support more complicated and modern multi-task network backbone. Please check out `im2im_pred/model_resnet_mtan` for more details. One should easily replace this model with any training template defined in `im2im_pred`.
 
-**Update - July 2020**: We have further improved the readability and updated all code bases in `im2im_pred` to comply the current latest version PyTorch 1.5. We fixed a bug to exclude non-defined pixel predictions for a more accurate mean IoU computation in semantic segmentation tasks. 
+**Update - July 2020**: We have further improved the readability and updated all code bases in `im2im_pred` to comply the current latest version PyTorch 1.5. We fixed a bug to exclude non-defined pixel predictions for a more accurate mean IoU computation in semantic segmentation tasks. We also provided an additional option for users enable data augmentation in NYUv2 to avoid over-fitting and achieve better performances.
 
 All models (files) built with SegNet (proposed in the original paper), are described in the following table:
 
@@ -37,13 +37,16 @@ For each flag, it represents
 | `weight`   | weighting options for multi-task learning: equal (direct summation of all task losses), DWA (our proposal), uncert (our implementation of the [Weight Uncertainty Method](https://arxiv.org/abs/1705.07115))  |  only available in multi-task learning |
 | `temp`   | hyper-parameter temperature in DWA weighting option  | to determine the softness of task weighting |
 | `type`   | different versions of multi-task baseline split: standard, deep, wide  | only available in the baseline split |
+| `apply_augmentation`   | toggle on to apply data augmentation in NYUv2 to avoid over-fitting  | available in all training models |
 
-To run any model, `cd im2im_pred/` and run `python MODEL_NAME.py --FLAG_NAME 'FLAG_OPTION'`.
+To run any model, `cd im2im_pred/` and run `python MODEL_NAME.py --FLAG_NAME 'FLAG_OPTION'` (default option is training without augmentation). Toggle on 'apply_augmentation' to train with data augmentation: `python MODEL_NAME.py --FLAG_NAME 'FLAG_OPTION' --apply_augmentation`.
 
 ### Benchmarking Multi-task Learning
 Benchmarking multi-task learning is always a tricky question, since the performance and evaluation method for each task is different. In the original paper, I simply averaged the performance for each task from the last 10 epochs, assuming we do not have access to the validation data. 
 
 For a more standardized and fair comparison, I would suggest researchers adopt the evaluation method defined in Section 5, Equation 4 of [this paper](https://arxiv.org/pdf/1904.08918.pdf), which computes the *average relative task improvements* over single task learning.
+
+NYUv2 can be easily over-fitted due to its small sample size in the dataset. In July's update, we have provided an option to apply data augmentation to alleviate the over-fitting issue (Thanks to Jialong's help). We highly recommend to benchmark NYUv2 dataset with this data augmentation, to be consistent with other SOTA multi-task learning methods such as [PAD-Net](https://arxiv.org/abs/1805.04409) and [MTI-Net](https://arxiv.org/abs/2001.06902).
 
 ### Visual Decathlon Challenge (Many-to-Many)
 We also provided source code for the recently proposed [Visual Decathlon Challenge](http://www.robots.ox.ac.uk/~vgg/decathlon/) for which we build MTAN based on [Wide Residual Network](https://arxiv.org/abs/1605.07146) from the implementation [here](https://github.com/meliketoy/wide-resnet.pytorch).
@@ -78,7 +81,7 @@ If you found this code/work to be useful in your own research, please considerin
 ```
 
 ## Acknowledgement
-We would like to thank Simon Vandenhende for his help on MTAN-DeepLabv3 design, and Jialong Wu on his help on mIoU bug fix. 
+We would like to thank Simon Vandenhende for his help on MTAN-DeepLabv3 design; Jialong Wu on his generous contribution to benchmarking MTAN-DeepLabv3, and implementation on data augmentation for NYUv2 dataset. 
 
 ## Contact
 If you have any questions, please contact `sk.lorenmt@gmail.com`.

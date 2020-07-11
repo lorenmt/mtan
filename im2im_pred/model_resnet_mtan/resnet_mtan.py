@@ -93,7 +93,7 @@ class MTANDeepLabv3(nn.Module):
         # Task specific decoders
         out = [0 for _ in self.tasks]
         for i, t in enumerate(self.tasks):
-            out[i] = F.interpolate(self.decoders[i](a_4[i]), size=out_size, mode='bilinear')
+            out[i] = F.interpolate(self.decoders[i](a_4[i]), size=out_size, mode='bilinear', align_corners=True)
             if t == 'segmentation':
                 out[i] = F.log_softmax(out[i], dim=1)
             if t == 'normal':

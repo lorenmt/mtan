@@ -12,6 +12,7 @@ parser.add_argument('--type', default='standard', type=str, help='split type: st
 parser.add_argument('--weight', default='equal', type=str, help='multi-task weighting: equal, uncert, dwa')
 parser.add_argument('--dataroot', default='nyuv2', type=str, help='dataset root')
 parser.add_argument('--temp', default=2.0, type=float, help='temperature for DWA (must be positive)')
+parser.add_argument('--apply_augmentation', action='store_true', help='toggle to apply data augmentation on NYUv2')
 opt = parser.parse_args()
 
 
@@ -137,7 +138,13 @@ print('LOSS FORMAT: SEMANTIC_LOSS MEAN_IOU PIX_ACC | DEPTH_LOSS ABS_ERR REL_ERR 
 
 # define dataset
 dataset_path = opt.dataroot
-nyuv2_train_set = NYUv2(root=dataset_path, train=True)
+if opt.apply_augmentation:
+    nyuv2_train_set = NYUv2(root=dataset_path, train=True, augmentation=True)
+    print('Applying data augmentation on NYUv2.')
+else:
+    nyuv2_train_set = NYUv2(root=dataset_path, train=True)
+    print('Standard training strategy without data augmentation.')
+
 nyuv2_test_set = NYUv2(root=dataset_path, train=False)
 
 batch_size = 2
