@@ -23,9 +23,9 @@ class RandomScaleCrop(object):
         j = random.randint(0, width - w)
         img_ = F.interpolate(img[None, :, i:i + h, j:j + w], size=(height, width), mode='bilinear', align_corners=True).squeeze(0)
         label_ = F.interpolate(label[None, None, i:i + h, j:j + w], size=(height, width), mode='nearest').squeeze(0).squeeze(0)
-        depth_ = F.interpolate(depth[None, :, i:i + h, j:j + w], size=(height, width), mode='nearest').squeeze(0)
-        normal_ = F.interpolate(normal[None, :, i:i + h, j:j + w], size=(height, width), mode='nearest').squeeze(0)
-        return img_, label_, depth_, normal_
+        depth_ = F.interpolate(depth[None, :, i:i + h, j:j + w], size=(height, width), mode='bilinear', align_corners=True).squeeze(0)
+        normal_ = F.interpolate(normal[None, :, i:i + h, j:j + w], size=(height, width), mode='bilinear', align_corners=True).squeeze(0)
+        return img_, label_, depth_ / sc, normal_
 
 
 class NYUv2(Dataset):
