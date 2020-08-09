@@ -5,11 +5,11 @@ This repository contains the source code of Multi-Task Attention Network (MTAN) 
 ### Image-to-Image Predictions (One-to-Many)
 Under the folder `im2im_pred`, we have provided our proposed network along with all the baselines on `NYUv2` dataset presented in the paper. All models were written in `PyTorch`, and we have updated the implementation to PyTorch version 1.5 in the latest commit.
 
-Download our pre-processed `NYUv2` dataset [here](https://www.dropbox.com/s/p2nn02wijg7peiy/nyuv2.zip?dl=0) which we evaluated in the paper. We use the pre-computed ground-truth normals from [here](https://cs.nyu.edu/~deigen/dnl/). The raw 13-class NYUv2 dataset can be directly downloaded in [this repo](https://github.com/ankurhanda/nyuv2-meta-data) with segmentation labels defined in [this repo](https://github.com/ankurhanda/SceneNetv1.0/).
+Download our pre-processed `NYUv2` dataset [here](https://www.dropbox.com/sh/86nssgwm6hm3vkb/AACrnUQ4GxpdrBbLjb6n-mWNa?dl=0) which we evaluated in the paper. We use the pre-computed ground-truth normals from [here](https://cs.nyu.edu/~deigen/dnl/). The raw 13-class NYUv2 dataset can be directly downloaded in [this repo](https://github.com/ankurhanda/nyuv2-meta-data) with segmentation labels defined in [this repo](https://github.com/ankurhanda/SceneNetv1.0/).
 
 *I am sorry that I am not able to provide the raw pre-processing code due to an unexpected computer crash.*
 
-**Update - Jun 2019**: I have now released the pre-processing `CityScapes` dataset with 2, 7, and 19-class semantic labels (see the paper for more details) and (inverse) depth labels. Download [256x512, 2.42GB] version [here](https://www.dropbox.com/s/q2333k4eyrnezbh/cityscapes.zip?dl=0) and [128x256, 651MB] version [here](https://www.dropbox.com/s/lg2ktu7o8hzwf99/cityscapes2.zip?dl=0).
+**Update - Jun 2019**: I have now released the pre-processing `CityScapes` dataset with 2, 7, and 19-class semantic labels (see the paper for more details) and (inverse) depth labels. Download [256x512, 2.42GB] version [here](https://www.dropbox.com/sh/vj349qgg57nthi9/AACdZmIuK-Qb_gP6w1HrA43ta?dl=0) and [128x256, 651MB] version [here](https://www.dropbox.com/sh/gaw6vh6qusoyms6/AADwWi0Tp3E3M4B2xzeGlsEna?dl=0).
 
 **Update - Oct 2019**: For pytorch 1.2 users: The mIoU evaluation method has now been updated to avoid "zeros issue" from computing binary masks. ~~Also, to correctly run the code, please move the `scheduler.step()` after calling the `optimizer.step()`, e.g. one line before the last performance printing step to fit the updated pytorch requirements. See more in the official pytorch documentation [here](https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate).~~ [We have fixed this in the latest commit.]
 
