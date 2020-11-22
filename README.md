@@ -17,6 +17,8 @@ Download our pre-processed `NYUv2` dataset [here](https://www.dropbox.com/sh/86n
 
 **Update - July 2020**: We have further improved the readability and updated all implementations in `im2im_pred` to comply the current latest version PyTorch 1.5. We fixed a bug to exclude non-defined pixel predictions for a more accurate mean IoU computation in semantic segmentation tasks. We also provided an additional option for users applying data augmentation in NYUv2 to avoid over-fitting and achieve better performances.
 
+**Update - Nov 2020 [IMPORTANT!]**: We have updated mIoU and Acc. formulas to be consistent with the standard benchmark from the [official COCO segmentation scripts](https://github.com/pytorch/vision/tree/master/references/segmentation). The mIoU for all methods are now expected to improve approximately 8%. The new formulas compute mIoU and Acc. based on the accumulated pixel predictions across all images, while the original formulas compute mIoU and Acc. based on pixel predictions averaged in each image across all images.
+
 All models (files) built with SegNet (proposed in the original paper), are described in the following table:
 
 | File Name        | Type       |  Flags  |  Comments |
