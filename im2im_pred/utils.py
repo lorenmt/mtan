@@ -99,7 +99,7 @@ class ConfMatrix(object):
         h = self.mat.float()
         acc = torch.diag(h).sum() / h.sum()
         iu = torch.diag(h) / (h.sum(1) + h.sum(0) - torch.diag(h))
-        return torch.mean(iu), acc
+        return torch.mean(iu).item(), acc.item()
 
 
 def depth_error(x_pred, x_output):
@@ -181,7 +181,7 @@ def multi_task_trainer(train_loader, test_loader, multi_task_model, device, opti
             avg_cost[index, :12] += cost[:12] / train_batch
 
         # compute mIoU and acc
-        avg_cost[index, 1:3] = conf_mat.get_metrics()
+        avg_cost[index, 1:3] = np.array(conf_mat.get_metrics())
 
         # evaluating test data
         multi_task_model.eval()
@@ -208,7 +208,7 @@ def multi_task_trainer(train_loader, test_loader, multi_task_model, device, opti
                 avg_cost[index, 12:] += cost[12:] / test_batch
 
             # compute mIoU and acc
-            avg_cost[index, 13:15] = conf_mat.get_metrics()
+            avg_cost[index, 13:15] = np.array(conf_mat.get_metrics())
 
         scheduler.step()
         print('Epoch: {:04d} | TRAIN: {:.4f} {:.4f} {:.4f} | {:.4f} {:.4f} {:.4f} | {:.4f} {:.4f} {:.4f} {:.4f} {:.4f} {:.4f} ||'
@@ -269,7 +269,7 @@ def single_task_trainer(train_loader, test_loader, single_task_model, device, op
             avg_cost[index, :12] += cost[:12] / train_batch
 
         if opt.task == 'semantic':
-            avg_cost[index, 1:3] = conf_mat.get_metrics()
+            avg_cost[index, 1:3] = np.array(conf_mat.get_metrics())
 
         # evaluating test data
         single_task_model.eval()
@@ -301,7 +301,7 @@ def single_task_trainer(train_loader, test_loader, single_task_model, device, op
 
                 avg_cost[index, 12:] += cost[12:] / test_batch
             if opt.task == 'semantic':
-                avg_cost[index, 13:15] = conf_mat.get_metrics()
+                avg_cost[index, 13:15] = np.array(conf_mat.get_metrics())
 
         scheduler.step()
         if opt.task == 'semantic':
