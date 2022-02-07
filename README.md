@@ -3,6 +3,8 @@ This repository contains the source code of Multi-Task Attention Network (MTAN) 
 
 See more results in our project page [here](https://shikun.io/projects/multi-task-attention-network).
 
+**Final Update** - This repository will not be further updated.  Check out our latest work: [Auto-Lambda](https://github.com/lorenmt/auto-lambda) for more multi-task optimisation methods.
+
 ## Experiments
 ### Image-to-Image Predictions (One-to-Many)
 Under the folder `im2im_pred`, we have provided our proposed network along with all the baselines on `NYUv2` dataset presented in the paper. All models were written in `PyTorch`, and we have updated the implementation to PyTorch version 1.5 in the latest commit.
